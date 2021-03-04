@@ -169,10 +169,14 @@ module.exports = function(app) {
     });
 
     server.on('published', function(packet, client) {
+      app.debug('Received packet ' + packet + ' from ' + client);
       if (client) {
         var skData = extractSkData(packet);
         if (skData.valid) {
+          app.debug('Packet valid');
           app.handleMessage(id, toDelta(skData, client));
+        } else {
+          app.debug('Packet invalid');
         }
       }
     });
